@@ -60,6 +60,30 @@ public class Event extends Message {
      * 群发结果事件
      */
     public static final String EVENT_TYPE_LOCATION_MASS_SEND_JOB_FINISH = "MASSSENDJOBFINISH";
+    /**
+     * 资质认证成功（此时立即获得接口权限）
+     */
+    public static final String EVENT_TYPE_QUALIFICATION_VERIFY_SUCCESS = "qualification_verify_success";
+    /**
+     * 资质认证失败
+     */
+    public static final String EVENT_TYPE_QUALIFICATION_VERIFY_FAIL = "qualification_verify_fail";
+    /**
+     * 名称认证成功（即命名成功）
+     */
+    public static final String EVENT_TYPE_NAMING_VERIFY_SUCCESS = "naming_verify_success";
+    /**
+     * 名称认证失败（这时虽然客户端不打勾，但仍有接口权限）
+     */
+    public static final String EVENT_TYPE_NAMING_VERIFY_FAIL = "naming_verify_fail";
+    /**
+     * 年审通知
+     */
+    public static final String EVENT_TYPE_ANNUAL_RENEW = "annual_renew";
+    /**
+     * 认证过期失效通知审通知
+     */
+    public static final String EVENT_TYPE_VERIFY_EXPIRED = "verify_expired";
 
     /**
      * 事件类型

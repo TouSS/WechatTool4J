@@ -159,6 +159,11 @@ public class User {
      */
     @JSONField(name = "qr_scene_str")
     private String qrSceneStr;
+    /**
+     * 用户特权信息, 数组, 如微信沃卡用户为（chinaunicom）
+     */
+    @JSONField(name = "privilege")
+    private List<String> privilege;
 
     public int getSubscribe() {
         return subscribe;
@@ -294,5 +299,13 @@ public class User {
 
     public void setQrSceneStr(String qrSceneStr) {
         this.qrSceneStr = qrSceneStr;
+    }
+
+    public List<String> getPrivilege() {
+        return privilege;
+    }
+
+    public void setPrivilege(List<String> privilege) {
+        this.privilege = privilege;
     }
 }

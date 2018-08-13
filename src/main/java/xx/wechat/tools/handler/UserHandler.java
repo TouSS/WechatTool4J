@@ -212,4 +212,47 @@ public class UserHandler extends Handler {
             put("openid", openid);
         }}))).getJSONArray("tagid_list").toJavaList(Integer.class);
     }
+
+    /**
+     * 获取公众号的黑名单列表
+     *
+     * @param openid 开始拉取用户, 为空时从开头拉取
+     * @return 黑名单列表
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public UserBatchInfo getBlackList(String openid) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/tags/members/getblacklist?access_token=" + this.token.getToken();
+        return JSON.parseObject(Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, Object>() {{
+            put("begin_openid", openid);
+        }})), UserBatchInfo.class);
+    }
+
+    /**
+     * 拉黑用户
+     *
+     * @param openids 需要拉入黑名单的用户的openid，一次拉黑最多允许20个
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public void blackUsers(List<String> openids) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/tags/members/batchblacklist?access_token=" + this.token.getToken();
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, Object>() {{
+            put("openid_list", openids);
+        }}));
+    }
+
+    /**
+     * 取消拉黑用户
+     *
+     * @param openids 取消黑名单的用户的openid
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public void unblackUsers(List<String> openids) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/tags/members/batchunblacklist?access_token=" + this.token.getToken();
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, Object>() {{
+            put("openid_list", openids);
+        }}));
+    }
 }
