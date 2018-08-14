@@ -1,14 +1,14 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import xx.wechat.tools.bean.AccessToken;
 
 /**
  * 处理方法基础类
  */
-public class Handler {
+public class PartContext {
     protected AccessToken token;
 
-    public Handler(AccessToken token) {
+    public PartContext(AccessToken token) {
         this.token = token;
     }
 

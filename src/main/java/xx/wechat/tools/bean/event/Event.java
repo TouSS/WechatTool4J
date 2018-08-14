@@ -86,6 +86,11 @@ public class Event extends Message {
     public static final String EVENT_TYPE_VERIFY_EXPIRED = "verify_expired";
 
     /**
+     * 模板消息发送结果通知
+     */
+    public static final String EVENT_TYPE_TEMPLATE_SEND_JOB_FINISH = "TEMPLATESENDJOBFINISH";
+
+    /**
      * 事件类型
      */
     @JSONField(name = "Event")

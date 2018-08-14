@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
@@ -17,7 +17,7 @@ import java.util.Map;
 /**
  * 群发处理器
  */
-public class BatchSendHandler extends Handler {
+public class BatchSendContext extends PartContext {
 
     /**
      * 根据用户标签群发
@@ -52,7 +52,7 @@ public class BatchSendHandler extends Handler {
      */
     private final static String SEND_STATE_DELETE = "DELETE";
 
-    public BatchSendHandler(AccessToken token) {
+    public BatchSendContext(AccessToken token) {
         super(token);
     }
 

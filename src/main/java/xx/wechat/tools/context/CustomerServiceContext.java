@@ -1,9 +1,10 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import xx.wechat.tools.bean.AccessToken;
 import xx.wechat.tools.bean.CustomerServiceAccount;
+import xx.wechat.tools.bean.TemplateMessageItem;
 import xx.wechat.tools.bean.message.Article;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
@@ -20,8 +21,8 @@ import java.util.Map;
 /**
  * 客服账户/客服消息发送
  */
-public class CustomerServiceHandler extends Handler {
-    public CustomerServiceHandler(AccessToken token) {
+public class CustomerServiceContext extends PartContext {
+    public CustomerServiceContext(AccessToken token) {
         super(token);
     }
 
@@ -387,5 +388,36 @@ public class CustomerServiceHandler extends Handler {
         messageBox.put("command", command);
         String url = "https://" + WechatServer.get() + "/cgi-bin/message/custom/typing?access_token=" + this.token.getToken();
         Https.post(url, Http.JSON, JSON.toJSONString(messageBox));
+    }
+
+    /**
+     * 发送模板消息
+     * <p>
+     * url和miniprogram都是非必填字段，若都不传则模板无跳转；若都传，会优先跳转至小程序。开发者可根据实际需要选择其中一种跳转方式即可。当用户的微信客户端版本不支持跳小程序时，将会跳转至url
+     *
+     * @param receiver   接收者openid
+     * @param templateId 模板ID
+     * @param messageUrl 模板跳转链接
+     * @param data       模板数据
+     * @param appid      跳小程序所需数据, 所需跳转到的小程序appid（该小程序appid必须与发模板消息的公众号是绑定关联关系，暂不支持小游戏）
+     * @param pagepath   跳小程序所需数据, 所需跳转到小程序的具体页面路径，支持带参数,（示例index?foo=bar），暂不支持小游戏
+     * @return 消息ID
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public Long sendTemplateMessage(String receiver, String templateId, String messageUrl, Map<String, TemplateMessageItem> data, String appid, String pagepath) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/message/template/send?access_token=" + this.token.getToken();
+        Map<String, Object> messageBox = new HashMap<>();
+        messageBox.put("touser", receiver);
+        messageBox.put("template_id", templateId);
+        messageBox.put("url", messageUrl);
+        messageBox.put("data", data);
+        if (StringUtils.isNotEmpty(appid) && StringUtils.isNotEmpty(pagepath)) {
+            messageBox.put("miniprogram", new HashMap<String, String>() {{
+                put("appid", appid);
+                put("pagepath", pagepath);
+            }});
+        }
+        return JSON.parseObject(Https.post(url, Http.JSON, JSON.toJSONString(messageBox))).getLong("msgid");
     }
 }

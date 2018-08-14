@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import xx.wechat.tools.bean.AccessToken;
@@ -14,7 +14,7 @@ import java.util.HashMap;
 /**
  * 二维码/链接处理方法
  */
-public class QRCodeHandler extends Handler {
+public class QRCodeContext extends PartContext {
     /**
      * 临时的整型参数值
      */
@@ -32,7 +32,7 @@ public class QRCodeHandler extends Handler {
      */
     public final static String QR_LIMIT_STR_SCENE = "QR_LIMIT_STR_SCENE";
 
-    public QRCodeHandler(AccessToken token) {
+    public QRCodeContext(AccessToken token) {
         super(token);
     }
 

@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -21,9 +21,9 @@ import java.util.Map;
 /**
  * 素材管理
  */
-public class MediaHandler extends Handler {
+public class MediaContext extends PartContext {
 
-    public MediaHandler(AccessToken token) {
+    public MediaContext(AccessToken token) {
         super(token);
     }
 

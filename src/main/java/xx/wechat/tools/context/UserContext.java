@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -20,8 +20,8 @@ import java.util.Map;
 /**
  * 用户管理
  */
-public class UserHandler extends Handler {
-    public UserHandler(AccessToken token) {
+public class UserContext extends PartContext {
+    public UserContext(AccessToken token) {
         super(token);
     }
 

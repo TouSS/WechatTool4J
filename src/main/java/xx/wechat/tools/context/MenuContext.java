@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -19,8 +19,8 @@ import java.util.Map;
 /**
  * 菜单操作方法
  */
-public class MenuHandler extends Handler {
-    public MenuHandler(AccessToken token) {
+public class MenuContext extends PartContext {
+    public MenuContext(AccessToken token) {
         super(token);
     }
 

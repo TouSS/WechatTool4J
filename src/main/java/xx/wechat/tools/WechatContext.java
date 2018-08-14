@@ -1,11 +1,10 @@
 package xx.wechat.tools;
 
 import xx.wechat.tools.bean.AccessToken;
-import xx.wechat.tools.bean.QRCode;
 import xx.wechat.tools.bean.WebAccessToken;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
-import xx.wechat.tools.handler.*;
+import xx.wechat.tools.context.*;
 import xx.wechat.tools.utils.Access;
 
 /**
@@ -17,7 +16,7 @@ public class WechatContext {
 
     private AccessToken accessToken;
 
-    protected WechatContext(String appid, String secret) throws WechatException, HttpException {
+    public WechatContext(String appid, String secret) throws WechatException, HttpException {
         this.appid = appid;
         this.secret = secret;
         refreshToken();
@@ -27,7 +26,7 @@ public class WechatContext {
         this.accessToken = Access.getAccessToken(this.appid, this.secret);
     }
 
-    protected AccessToken getToken() throws WechatException, HttpException {
+    protected synchronized AccessToken getToken() throws WechatException, HttpException {
         if (this.accessToken == null || this.accessToken.isExpired()) refreshToken();
         return this.accessToken;
     }
@@ -39,8 +38,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public MenuHandler getMenuHandler() throws WechatException, HttpException {
-        return new MenuHandler(getToken());
+    public MenuContext getMenuContext() throws WechatException, HttpException {
+        return new MenuContext(getToken());
     }
 
     /**
@@ -50,8 +49,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public MediaHandler getMediaHandler() throws WechatException, HttpException {
-        return new MediaHandler(getToken());
+    public MediaContext getMediaContext() throws WechatException, HttpException {
+        return new MediaContext(getToken());
     }
 
     /**
@@ -61,8 +60,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public UserHandler getUserHandler() throws WechatException, HttpException {
-        return new UserHandler(getToken());
+    public UserContext getUserContext() throws WechatException, HttpException {
+        return new UserContext(getToken());
     }
 
     /**
@@ -72,8 +71,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public CustomerServiceHandler getCustomerServiceHandler() throws WechatException, HttpException {
-        return new CustomerServiceHandler(getToken());
+    public CustomerServiceContext getCustomerServiceContext() throws WechatException, HttpException {
+        return new CustomerServiceContext(getToken());
     }
 
     /**
@@ -83,8 +82,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public BatchSendHandler getBatchSendHandler() throws WechatException, HttpException {
-        return new BatchSendHandler(getToken());
+    public BatchSendContext getBatchSendContext() throws WechatException, HttpException {
+        return new BatchSendContext(getToken());
     }
 
     /**
@@ -94,8 +93,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public QRCodeHandler getQRCodeHandler() throws WechatException, HttpException {
-        return new QRCodeHandler(getToken());
+    public QRCodeContext getQRCodeContext() throws WechatException, HttpException {
+        return new QRCodeContext(getToken());
     }
 
     /**
@@ -105,8 +104,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public WebAccessHandler getWebAccessHandler() throws WechatException, HttpException {
-        return new WebAccessHandler(this.appid, this.secret);
+    public WebAccessContext getWebAccessContext() throws WechatException, HttpException {
+        return new WebAccessContext(this.appid, this.secret);
     }
 
     /**
@@ -117,8 +116,8 @@ public class WechatContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public WebAccessHandler getWebAccessHandler(WebAccessToken token) throws WechatException, HttpException {
-        return new WebAccessHandler(token);
+    public WebAccessContext getWebAccessContext(WebAccessToken token) throws WechatException, HttpException {
+        return new WebAccessContext(token);
     }
 
 }

@@ -1,4 +1,4 @@
-package xx.wechat.tools.handler;
+package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import xx.wechat.tools.bean.WebAccessToken;
@@ -11,18 +11,18 @@ import xx.wechat.tools.utils.WechatServer;
 /**
  * 网页授权处理
  */
-public class WebAccessHandler {
+public class WebAccessContext {
 
     private String appid;
     private String secret;
     private WebAccessToken webAccessToken;
 
-    public WebAccessHandler(String appid, String secret) {
+    public WebAccessContext(String appid, String secret) {
         this.appid = appid;
         this.secret = secret;
     }
 
-    public WebAccessHandler(WebAccessToken token) {
+    public WebAccessContext(WebAccessToken token) {
         this.appid = token.getAppid();
         this.webAccessToken = token;
     }
