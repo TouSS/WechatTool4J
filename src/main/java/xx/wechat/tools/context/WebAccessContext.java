@@ -42,7 +42,7 @@ public class WebAccessContext {
     public WebAccessToken getWebAccessToken(String code) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/sns/oauth2/access_token?appid=" + this.appid + "&secret=" + this.secret + "&code=" + code + "&grant_type=authorization_code";
         WebAccessToken webAccessToken = JSON.parseObject(Https.get(url), WebAccessToken.class);
-        webAccessToken.setApply(System.currentTimeMillis());
+        webAccessToken.setApply(System.currentTimeMillis() / 1000);
         this.webAccessToken = webAccessToken;
         return webAccessToken;
     }

@@ -17,7 +17,7 @@ public class WebAccessToken {
     @JSONField(name = "access_token")
     private String token;
     /**
-     * 用户刷新access_token
+     * 用户刷新access_token, 有效期为30天
      */
     @JSONField(name = "refresh_token")
     private String refreshToken;
@@ -102,6 +102,13 @@ public class WebAccessToken {
      * 凭证是否过期, 提前10分钟更换凭证
      */
     public boolean isExpired() {
-        return this.expires - (System.currentTimeMillis() / 1000 - this.apply) < 600;
+        return this.apply + this.expires - System.currentTimeMillis() / 1000 < 600;
+    }
+
+    /**
+     * 刷新码是否过期，提前10分钟
+     */
+    public boolean isRefreshExpired() {
+        return this.apply + 30 * 24 * 60 * 60 - System.currentTimeMillis() / 1000 < 600;
     }
 }

@@ -1,5 +1,6 @@
 package xx.wechat.tools.utils;
 
+import java.security.PublicKey;
 import java.util.*;
 
 import com.alibaba.fastjson.JSON;
@@ -119,4 +120,28 @@ public class Convert {
         Map map = JSON.parseObject(json, Map.class);
         return collectionToXml(map, "xml");
     }
+
+    /**
+     * Map转对象
+     *
+     * @param map   MAP
+     * @param clazz 对象类
+     * @return 对象
+     */
+    public static <T> T mapToObject(Map<Object, Object> map, Class<T> clazz) {
+        String json = JSON.toJSONString(map);
+        return JSON.parseObject(json, clazz);
+    }
+
+    /**
+     * Object转Map
+     *
+     * @param object 对象
+     * @return MAP
+     */
+    public Map<String, Object> objectToMap(Object object) {
+        String json = JSON.toJSONString(object);
+        return JSON.parseObject(json, Map.class);
+    }
+
 }
