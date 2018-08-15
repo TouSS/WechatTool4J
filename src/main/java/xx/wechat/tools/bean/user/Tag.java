@@ -6,7 +6,7 @@ package xx.wechat.tools.bean.user;
 public class Tag {
     private int id;
     private String name;
-    private long count;
+    private Integer count;
 
     public Tag() {
     }
@@ -35,11 +35,11 @@ public class Tag {
         this.name = name;
     }
 
-    public long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 }

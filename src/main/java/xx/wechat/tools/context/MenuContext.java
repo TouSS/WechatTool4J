@@ -44,10 +44,10 @@ public class MenuContext extends PartContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public Long addConditionalMenu(ConditionalMenu conditionalMenu) throws WechatException, HttpException {
+    public Integer addConditionalMenu(ConditionalMenu conditionalMenu) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/cgi-bin/menu/addconditional?access_token=" + this.token.getToken();
         JSONObject jsonObject = JSON.parseObject(Https.post(url, Http.JSON, JSON.toJSONString(conditionalMenu)));
-        return jsonObject.getLong("menuid");
+        return jsonObject.getInteger("menuid");
     }
 
     /**

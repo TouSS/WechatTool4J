@@ -120,4 +120,15 @@ public class WechatContext {
         return new WebAccessContext(token);
     }
 
+    /**
+     * 图文评论
+     *
+     * @return 图文评论方法
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public NewsCommentContext getNewsCommentContext() throws WechatException, HttpException {
+        return new NewsCommentContext(getToken());
+    }
+
 }

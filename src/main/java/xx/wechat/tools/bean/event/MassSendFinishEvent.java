@@ -33,22 +33,22 @@ public class MassSendFinishEvent extends Event {
      * tag_id下粉丝数；或者openid_list中的粉丝数
      */
     @JSONField(name = "TotalCount")
-    private Long totalCount;
+    private Integer totalCount;
     /**
      * 过滤（过滤是指特定地区、性别的过滤、用户设置拒收的过滤，用户接收已超4条的过滤）后，准备发送的粉丝数，原则上，filterCount = sentCount + errorCount
      */
     @JSONField(name = "FilterCount")
-    private Long filterCount;
+    private Integer filterCount;
     /**
      * 发送成功的粉丝数
      */
     @JSONField(name = "SentCount")
-    private Long sentCount;
+    private Integer sentCount;
     /**
      * 发送失败的粉丝数
      */
     @JSONField(name = "ErrorCount")
-    private Long errorCount;
+    private Integer errorCount;
     /**
      * 各个单图文校验结果
      */
@@ -72,35 +72,35 @@ public class MassSendFinishEvent extends Event {
         this.status = status;
     }
 
-    public Long getTotalCount() {
+    public Integer getTotalCount() {
         return totalCount;
     }
 
-    public void setTotalCount(Long totalCount) {
+    public void setTotalCount(Integer totalCount) {
         this.totalCount = totalCount;
     }
 
-    public Long getFilterCount() {
+    public Integer getFilterCount() {
         return filterCount;
     }
 
-    public void setFilterCount(Long filterCount) {
+    public void setFilterCount(Integer filterCount) {
         this.filterCount = filterCount;
     }
 
-    public Long getSentCount() {
+    public Integer getSentCount() {
         return sentCount;
     }
 
-    public void setSentCount(Long sentCount) {
+    public void setSentCount(Integer sentCount) {
         this.sentCount = sentCount;
     }
 
-    public Long getErrorCount() {
+    public Integer getErrorCount() {
         return errorCount;
     }
 
-    public void setErrorCount(Long errorCount) {
+    public void setErrorCount(Integer errorCount) {
         this.errorCount = errorCount;
     }
 

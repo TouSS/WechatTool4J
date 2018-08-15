@@ -13,12 +13,12 @@ public class UserBatchInfo {
      * 关注该公众账号的总用户数
      */
     @JSONField(name = "total")
-    private Long total;
+    private Integer total;
     /**
      * 拉取的OPENID个数，最大值为10000
      */
     @JSONField(name = "count")
-    private Long count;
+    private Integer count;
     /**
      * 列表数据，OPENID的列表
      */
@@ -30,19 +30,19 @@ public class UserBatchInfo {
     @JSONField(name = "next_openid")
     private String nextOpenid;
 
-    public Long getTotal() {
+    public Integer getTotal() {
         return total;
     }
 
-    public void setTotal(Long total) {
+    public void setTotal(Integer total) {
         this.total = total;
     }
 
-    public Long getCount() {
+    public Integer getCount() {
         return count;
     }
 
-    public void setCount(Long count) {
+    public void setCount(Integer count) {
         this.count = count;
     }
 
