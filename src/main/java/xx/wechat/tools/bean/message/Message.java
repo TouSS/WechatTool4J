@@ -30,6 +30,8 @@ public class Message {
     public final static String MESSAGE_TYPE_MPNEWS = "mpnews";
     /** 卡券消息 **/
     public final static String MESSAGE_TYPE_WXCARD = "wxcard";
+    /** 转发客服回复消息 **/
+    public final static String MESSAGE_TYPE_TRANSFER_CUSTOMER_SERVICE = "transfer_customer_service";
     /** 事件消息 **/
     public final static String MESSAGE_TYPE_EVENT = "event";
 

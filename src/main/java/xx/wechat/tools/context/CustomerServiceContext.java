@@ -3,8 +3,11 @@ package xx.wechat.tools.context;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
 import xx.wechat.tools.bean.AccessToken;
-import xx.wechat.tools.bean.CustomerServiceAccount;
+import xx.wechat.tools.bean.customer.service.Account;
 import xx.wechat.tools.bean.TemplateMessageItem;
+import xx.wechat.tools.bean.customer.service.Records;
+import xx.wechat.tools.bean.customer.service.Session;
+import xx.wechat.tools.bean.customer.service.WaitCase;
 import xx.wechat.tools.bean.message.Article;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
@@ -29,37 +32,63 @@ public class CustomerServiceContext extends PartContext {
     /**
      * 添加客服账户
      *
-     * @param customerServiceAccount 客服账户
+     * @param account  完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param nickname 客服昵称，最长16个字
      * @throws WechatException
      * @throws HttpException
      */
-    public void addCustomerServiceAccount(CustomerServiceAccount customerServiceAccount) throws WechatException, HttpException {
+    public void addCustomerServiceAccount(String account, String nickname) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/customservice/kfaccount/add?access_token=" + this.token.getToken();
-        Https.post(url, Http.JSON, JSON.toJSONString(customerServiceAccount));
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+            put("nickname", nickname);
+        }}));
+    }
+
+    /**
+     * 邀请绑定客服帐号
+     *
+     * @param account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param wx      接收绑定邀请的客服微信号
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public void inviteCustomerService(String account, String wx) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfaccount/inviteworker?access_token=" + this.token.getToken();
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+            put("invite_wx", wx);
+        }}));
     }
 
     /**
      * 修改客服账户
      *
-     * @param customerServiceAccount 客服账户
+     * @param account  完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param nickname 客服昵称，最长16个字
      * @throws WechatException
      * @throws HttpException
      */
-    public void updateCustomerServiceAccount(CustomerServiceAccount customerServiceAccount) throws WechatException, HttpException {
+    public void updateCustomerServiceAccount(String account, String nickname) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/customservice/kfaccount/update?access_token=" + this.token.getToken();
-        Https.post(url, Http.JSON, JSON.toJSONString(customerServiceAccount));
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+            put("nickname", nickname);
+        }}));
     }
 
     /**
      * 移除客服账户
      *
-     * @param customerServiceAccount 客服账户
+     * @param account 完整客服帐号，格式为：帐号前缀@公众号微信号
      * @throws WechatException
      * @throws HttpException
      */
-    public void removeCustomerServiceAccount(CustomerServiceAccount customerServiceAccount) throws WechatException, HttpException {
+    public void removeCustomerServiceAccount(String account) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/customservice/kfaccount/del?access_token=" + this.token.getToken();
-        Https.post(url, Http.JSON, JSON.toJSONString(customerServiceAccount));
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+        }}));
     }
 
     /**
@@ -99,9 +128,114 @@ public class CustomerServiceContext extends PartContext {
      * @throws WechatException
      * @throws HttpException
      */
-    public List<CustomerServiceAccount> getAllCustomerServiceAccount() throws WechatException, HttpException {
+    public List<Account> getAllCustomerServiceAccount() throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/cgi-bin/customservice/getkflist?access_token=" + this.token.getToken();
-        return JSON.parseArray(Https.get(url), CustomerServiceAccount.class);
+        return JSON.parseObject(Https.get(url)).getJSONArray("kf_list").toJavaList(Account.class);
+    }
+
+    /**
+     * 获取所有在线客服
+     *
+     * @return 在线客服列表
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public List<Account> getAllOnlineCustomerServiceAccount() throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/customservice/getonlinekflist?access_token=" + this.token.getToken();
+        return JSON.parseObject(Https.get(url)).getJSONArray("kf_online_list").toJavaList(Account.class);
+    }
+
+    /**
+     * 创建会话
+     * 在客服和用户之间创建一个会话，如果该客服和用户会话已存在，则直接返回0。指定的客服帐号必须已经绑定微信号且在线。
+     *
+     * @param account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param openid  粉丝的openid
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public void createSession(String account, String openid) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfsession/create?access_token=" + this.token.getToken();
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+            put("openid", openid);
+        }}));
+    }
+
+    /**
+     * 关闭会话
+     *
+     * @param account 完整客服帐号，格式为：帐号前缀@公众号微信号
+     * @param openid  粉丝的openid
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public void closeSession(String account, String openid) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfsession/close?access_token=" + this.token.getToken();
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, String>() {{
+            put("kf_account", account);
+            put("openid", openid);
+        }}));
+    }
+
+    /**
+     * 获取客户会话状态
+     * 获取一个客户的会话，如果不存在，则kf_account为空
+     *
+     * @param openid 粉丝的openid
+     * @return 会话状态
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public Session getUserSession(String openid) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfsession/getsession?access_token=" + this.token.getToken() + "&openid=" + openid;
+        return JSON.parseObject(Https.get(url), Session.class);
+    }
+
+    /**
+     * 获取客服会话列表
+     *
+     * @param account 客服账号
+     * @return 会话列表
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public List<Session> getAccountSession(String account) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfsession/getsessionlist?access_token=" + this.token.getToken() + "&kf_account=" + account;
+        return JSON.parseObject(Https.get(url)).getJSONArray("sessionlist").toJavaList(Session.class);
+    }
+
+    /**
+     * 等待会话
+     *
+     * @return 等待会话
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public WaitCase getWaitCase() throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/kfsession/getwaitcase?access_token=" + this.token.getToken();
+        return JSON.parseObject(Https.get(url), WaitCase.class);
+    }
+
+    /**
+     * 获取聊天记录
+     *
+     * @param startTime 起始时间，unix时间戳
+     * @param endTime   结束时间，unix时间戳，每次查询时段不能超过24小时
+     * @param msgId     消息id顺序从小到大，从1开始
+     * @param number    每次获取条数，最多10000条
+     * @return
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public Records getRecords(long startTime, long endTime, long msgId, int number) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/customservice/msgrecord/getmsglist?access_token=" + this.token.getToken();
+        return JSON.parseObject(Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, Object>() {{
+            put("starttime", startTime);
+            put("endtime", startTime);
+            put("msgid", startTime);
+            put("number", startTime);
+        }})), Records.class);
     }
 
     /**
