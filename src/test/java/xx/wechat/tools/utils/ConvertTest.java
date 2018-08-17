@@ -19,21 +19,7 @@ public class ConvertTest {
 
     @Test
     public void xmlToObject() {
-        try {
-            String xml = "<xml>\n" +
-                    "     <ToUserName>< ![CDATA[touser] ]></ToUserName>\n" +
-                    "     <FromUserName>< ![CDATA[fromuser] ]></FromUserName>\n" +
-                    "     <CreateTime>1399197672</CreateTime>\n" +
-                    "     <MsgType>< ![CDATA[transfer_customer_service] ]></MsgType>\n" +
-                    "     <TransInfo>\n" +
-                    "         <KfAccount>< ![CDATA[test1@test] ]></KfAccount>\n" +
-                    "     </TransInfo>\n" +
-                    " </xml>";
-            Message event = Convert.xmlToObject(xml.replaceAll("\\s+", ""), ReplyTransferCustomerServiceMessage.class);
-            System.out.println(Convert.objectToXml(event));
-        } catch (DocumentException e) {
-            e.printStackTrace();
-        }
+
     }
 
     @Test

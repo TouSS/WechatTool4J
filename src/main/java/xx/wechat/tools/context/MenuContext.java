@@ -53,13 +53,15 @@ public class MenuContext extends PartContext {
     /**
      * 删除个性化菜单
      *
-     * @param conditionalMenu 个性化菜单-menuId
+     * @param menuId 个性化菜单-menuId
      * @throws WechatException
      * @throws HttpException
      */
-    public void deleteConditionalMenu(ConditionalMenu conditionalMenu) throws WechatException, HttpException {
+    public void deleteConditionalMenu(Integer menuId) throws WechatException, HttpException {
         String url = "https://" + WechatServer.get() + "/cgi-bin/menu/delconditional?access_token=" + this.token.getToken();
-        Https.post(url, Http.JSON, JSON.toJSONString(conditionalMenu));
+        Https.post(url, Http.JSON, JSON.toJSONString(new HashMap<String, Integer>(){{
+            put("menuid", menuId);
+        }}));
     }
 
     /**
@@ -73,7 +75,7 @@ public class MenuContext extends PartContext {
     public Menu getMenu(String user) throws WechatException, HttpException {
         Map<String, String> postData = new HashMap<>();
         postData.put("user_id", user);
-        String url = "https://" + WechatServer.get() + "cgi-bin/menu/trymatch?access_token=" + this.token.getToken();
+        String url = "https://" + WechatServer.get() + "/cgi-bin/menu/trymatch?access_token=" + this.token.getToken();
         return JSON.parseObject(Https.post(url, Http.JSON, JSON.toJSONString(postData)), Menu.class);
     }
 
@@ -90,6 +92,7 @@ public class MenuContext extends PartContext {
 
     /**
      * 获取所有菜单, 在设置了个性化菜单后，使用本自定义菜单查询接口可以获取默认菜单和全部个性化菜单信息
+     *
      * @return 所有菜单(数组第一个为默认菜单, 后面为个性化菜单)
      * @throws WechatException
      * @throws HttpException
@@ -98,10 +101,10 @@ public class MenuContext extends PartContext {
         String url = "https://" + WechatServer.get() + "/cgi-bin/menu/get?access_token=" + this.token.getToken();
         JSONObject jsonObject = JSON.parseObject(Https.get(url));
         List<Menu> menus = new ArrayList<>();
-        if(jsonObject.containsKey("menu")) {
-            menus.add((Menu) jsonObject.get("menu"));
+        if (jsonObject.containsKey("menu")) {
+            menus.add(jsonObject.getObject("menu", Menu.class));
         }
-        if(jsonObject.containsKey("conditionalmenu")) {
+        if (jsonObject.containsKey("conditionalmenu")) {
             menus.addAll(jsonObject.getJSONArray("conditionalmenu").toJavaList(ConditionalMenu.class));
         }
         return menus;
@@ -109,6 +112,7 @@ public class MenuContext extends PartContext {
 
     /**
      * 公众号当前使用的自定义菜单的配置，如果公众号是通过API调用设置的菜单，则返回菜单的开发配置，而如果公众号是在公众平台官网通过网站功能发布菜单，则本接口返回运营者设置的菜单配置
+     *
      * @return 菜单信息
      * @throws WechatException
      * @throws HttpException

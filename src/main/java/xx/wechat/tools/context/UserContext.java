@@ -73,7 +73,7 @@ public class UserContext extends PartContext {
      * @throws HttpException
      */
     public UserBatchInfo getUserList(String openid) throws WechatException, HttpException {
-        String url = "https://" + WechatServer.get() + "/cgi-bin/user/get?access_token=" + this.token.getToken() + "&next_openid=" + openid;
+        String url = "https://" + WechatServer.get() + "/cgi-bin/user/get?access_token=" + this.token.getToken() + "&next_openid=" + (openid == null ? "" : openid);
         return JSON.parseObject(Https.get(url), UserBatchInfo.class);
     }
 
