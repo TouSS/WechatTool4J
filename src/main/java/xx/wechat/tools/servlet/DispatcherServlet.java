@@ -2,7 +2,7 @@ package xx.wechat.tools.servlet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
-import xx.wechat.tools.MessageHandler;
+import xx.wechat.tools.handler.ReceiveHandler;
 import xx.wechat.tools.WechatContext;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.MessageControllerNotFoundException;
@@ -36,7 +36,7 @@ public class DispatcherServlet extends HttpServlet {
     /**
      * 处理器
      **/
-    private MessageHandler messageHandler;
+    private ReceiveHandler receiveHandler;
 
     public DispatcherServlet() {
     }
@@ -57,7 +57,7 @@ public class DispatcherServlet extends HttpServlet {
         //初始化WechatContext
         try {
             this.getServletContext().setAttribute("wechatContext", new WechatContext(appid, secret));
-            this.messageHandler = new MessageHandler(messageControllerPackageName);
+            this.receiveHandler = new ReceiveHandler(messageControllerPackageName);
         } catch (HttpException | WechatException | IOException | ClassNotFoundException e) {
             throw new ServletException("Init servlet failed: " + e.getMessage());
         }
@@ -74,14 +74,15 @@ public class DispatcherServlet extends HttpServlet {
             resp.getWriter().write(req.getParameter("echostr"));
         } else {
             //接入失败
-            resp.getWriter().write(req.getParameter("+_+"));
+            resp.getWriter().write("+_+");
         }
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
-            this.messageHandler.handle(req, resp);
+            resp.setCharacterEncoding("UTF-8");
+            this.receiveHandler.handle(req, resp);
         } catch (MessageControllerNotFoundException | IllegalAccessException | DocumentException | InstantiationException | InvocationTargetException e) {
             throw new ServletException("Request handle failed: " + e.getMessage());
         }

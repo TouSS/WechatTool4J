@@ -1,8 +1,9 @@
-package xx.wechat.tools;
+package xx.wechat.tools.handler;
 
 import org.dom4j.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import xx.wechat.tools.WechatContext;
 import xx.wechat.tools.annotation.MessageController;
 import xx.wechat.tools.annotation.MessageMapping;
 import xx.wechat.tools.bean.message.Message;
@@ -24,12 +25,12 @@ import java.util.Map;
 /**
  * 消息处理器
  */
-public class MessageHandler {
+public class ReceiveHandler {
     private final Logger log = LoggerFactory.getLogger(this.getClass());
 
     private Map<String, Map<String, Map<String, Object>>> handlers;
 
-    public MessageHandler(String handlerPackage) throws IOException, ClassNotFoundException {
+    public ReceiveHandler(String handlerPackage) throws IOException, ClassNotFoundException {
         //初始化处理方法
         handlers = new HashMap<>();
         List<Class<?>> classes = LocalPackage.getAnnotationClasses(MessageController.class, handlerPackage);
