@@ -3,6 +3,7 @@ package xx.wechat.tools.context;
 import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;
+import xx.wechat.tools.Token;
 import xx.wechat.tools.bean.AccessToken;
 import xx.wechat.tools.bean.user.User;
 import xx.wechat.tools.exception.HttpException;
@@ -18,7 +19,7 @@ public class UserContextTest {
 
     @Before
     public void setUp() throws Exception {
-        AccessToken accessToken = JSON.parseObject("{\"access_token\":\"12_jVSNXK1EJwfcBlkA-gfbLoBXW3gsGHro2fY9SkUza2q15GYpirgTpyfH1n8TRa-f0LyzLjhr6obL-1LIFIsyCgtoLNFnlbkbPUhZitrxPbmitjE_a9wiZ78dx6Sh8ykiBk0XpG0Y9oWaOR1WTZMjAIAJPC\",\"apply_timestamp\":1534492930,\"expired\":false,\"expires_in\":7200}", AccessToken.class);
+        AccessToken accessToken = Token.getAccessToken();
         userContext = new UserContext(accessToken);
     }
 

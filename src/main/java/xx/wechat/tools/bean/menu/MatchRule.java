@@ -7,6 +7,19 @@ import com.alibaba.fastjson.annotation.JSONField;
  */
 public class MatchRule {
     /**
+     * 客户端系统-IOS
+     */
+    public static final int CLIENT_PLATFORM_TYPE_IOS = 1;
+    /**
+     * 客户端系统-ANDROID
+     */
+    public static final int CLIENT_PLATFORM_TYPE_ANDROID = 2;
+    /**
+     * 客户端系统-其他
+     */
+    public static final int CLIENT_PLATFORM_TYPE_OTHERS = 3;
+
+    /**
      * 用户标签的id，可通过用户标签管理接口获取
      */
     @JSONField(name = "tag_id")
