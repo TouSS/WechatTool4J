@@ -1,6 +1,8 @@
 package xx.wechat.tools;
 
 import org.dom4j.DocumentException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import xx.wechat.tools.annotation.MessageController;
 import xx.wechat.tools.annotation.MessageMapping;
 import xx.wechat.tools.bean.message.Message;
@@ -23,6 +25,8 @@ import java.util.Map;
  * 消息处理器
  */
 public class MessageHandler {
+    private final Logger log = LoggerFactory.getLogger(this.getClass());
+
     private Map<String, Map<String, Map<String, Object>>> handlers;
 
     public MessageHandler(String handlerPackage) throws IOException, ClassNotFoundException {
@@ -71,6 +75,7 @@ public class MessageHandler {
         while ((line = bufferedReader.readLine()) != null) {
             stringBuffer.append(line);
         }
+        log.debug("RECEIVE: " + stringBuffer.toString());
         Map postData = Convert.xmlToMap(stringBuffer.toString());
         String msgType = (String) postData.get("MsgType");
         Map<String, Object> handler;

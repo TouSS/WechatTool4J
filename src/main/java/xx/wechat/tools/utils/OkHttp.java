@@ -2,6 +2,7 @@ package xx.wechat.tools.utils;
 
 import okhttp3.OkHttpClient;
 import xx.wechat.tools.exception.HttpException;
+import xx.wechat.tools.listener.OkHttpEventListener;
 
 import javax.net.ssl.*;
 import java.security.SecureRandom;
@@ -30,7 +31,9 @@ public class OkHttp {
      */
     public static synchronized OkHttpClient getHttpClient() {
         if (httpClient == null) {
-            httpClient = new OkHttpClient();
+            httpClient = new OkHttpClient.Builder()
+                    .eventListener(new OkHttpEventListener())
+                    .build();
         }
         return httpClient;
     }
@@ -50,6 +53,7 @@ public class OkHttp {
                     httpsClient = new OkHttpClient.Builder()
                             .sslSocketFactory(sslContext.getSocketFactory(), trustManager)
                             .hostnameVerifier(new Verifier())
+                            .eventListener(new OkHttpEventListener())
                             .build();
                 } catch (Exception e) {
 
