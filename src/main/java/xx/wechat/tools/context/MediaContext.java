@@ -71,7 +71,7 @@ public class MediaContext extends PartContext {
             String url = "https://" + WechatServer.get() + "/cgi-bin/media/get?access_token=" + this.token.getToken() + "&media_id=" + mediaId;
             Response response = Https.request(url);
             String contentType = response.header("Content-Type");
-            if (contentType.startsWith("text")) {
+            if (contentType != null && contentType.startsWith("text")) {
                 //返回文本数据
                 JSONObject jsonObject = JSON.parseObject(response.body().string());
                 ResultCheck.checkWechatResult(jsonObject);
@@ -114,7 +114,7 @@ public class MediaContext extends PartContext {
             String url = "https://" + WechatServer.get() + "/cgi-bin/media/get/jssdk?access_token=" + this.token.getToken() + "&media_id=" + mediaId;
             Response response = Https.request(url);
             String contentType = response.header("Content-Type");
-            if (contentType.startsWith("text")) {
+            if (contentType != null && contentType.startsWith("text")) {
                 //返回文本数据
                 JSONObject jsonObject = JSON.parseObject(response.body().string());
                 ResultCheck.checkWechatResult(jsonObject);
@@ -225,7 +225,7 @@ public class MediaContext extends PartContext {
                 put("media_id", mediaId);
             }}));
             String contentType = response.header("Content-Type");
-            if (contentType.startsWith("text")) {
+            if (contentType != null && contentType.startsWith("text")) {
                 //返回文本数据
                 JSONObject jsonObject = JSON.parseObject(response.body().string());
                 ResultCheck.checkWechatResult(jsonObject);

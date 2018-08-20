@@ -27,7 +27,7 @@ public class Token {
             }
         }
         accessToken = Access.getAccessToken("wx1f47e3c510d330dc", "13114dfaa18f61d04666b4f19364ce2f");
-        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, true));
+        BufferedWriter bufferedWriter = new BufferedWriter(new FileWriter(file, false));
         bufferedWriter.write(JSON.toJSONString(accessToken));
         bufferedWriter.flush();
         bufferedWriter.close();
