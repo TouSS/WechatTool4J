@@ -13,7 +13,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 
 /**
- * 网页授权验证
+ * 此过滤器用于需要微信用户授权页面的访问过滤
  */
 public class WebAccessFilter implements Filter {
     @Override
@@ -35,7 +35,7 @@ public class WebAccessFilter implements Filter {
             if (webAccessToken == null || webAccessToken.isRefreshExpired()) {
                 //还未验证过或刷新码过期
                 webAccessToken = webAccessContext.getWebAccessToken(code);
-                session.setAttribute("webAccessToken", webAccessContext);
+                session.setAttribute("webAccessToken", webAccessToken);
                 if ("snsapi_userinfo".equals(webAccessToken.getScope())) {
                     session.setAttribute("wx_user", webAccessContext.getUserInfo(webAccessToken, "zh_CN"));
                 }

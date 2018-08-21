@@ -17,6 +17,8 @@ public class ServletConfigure {
     @Bean
     public ServletRegistrationBean wechatServlet() {
         ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
+        //哈哈-坑：servlet名字 "DispatcherServlet" 和springMVC基础servlet一样, 所以要手动设置名称, - - !
+        servletRegistrationBean.setName("wechatServlet");
         servletRegistrationBean.setServlet(new DispatcherServlet());
         servletRegistrationBean.addUrlMappings("/service-1");
         servletRegistrationBean.addInitParameter("appid", "wx1f47e3c510d330dc");
@@ -32,6 +34,7 @@ public class ServletConfigure {
         FilterRegistrationBean registration = new FilterRegistrationBean();
         registration.setFilter(new WebAccessFilter());
         registration.addUrlPatterns("/auth-1/*");
+        registration.setName("wechatWebFilter");
         return registration;
     }
 

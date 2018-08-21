@@ -13,6 +13,8 @@ import xx.wechat.tools.bean.user.User;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,9 +39,9 @@ public class MenuContextTest {
             buttons.add(button);
 
             button = new Button();
-            button.setName("淘宝");
+            button.setName("A0A");
             button.setType(Button.BUTTON_TYPE_VIEW);
-            button.setUrl("https://www.taobao.com");
+            button.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1f47e3c510d330dc&redirect_uri="+URLEncoder.encode("http://62214a01.ngrok.io/auth-1/index.html", "UTF-8")+"&response_type=code&scope=snsapi_userinfo&state=ToolTes#wechat_redirect");
             buttons.add(button);
 
             button = new Button();
@@ -70,9 +72,10 @@ public class MenuContextTest {
             buttons.add(button);
 
             button = new Button();
-            button.setName("淘宝");
+            button.setName("A0A");
             button.setType(Button.BUTTON_TYPE_VIEW);
-            button.setUrl("https://www.taobao.com");
+
+            button.setUrl("https://open.weixin.qq.com/connect/oauth2/authorize?appid=wx1f47e3c510d330dc&redirect_uri="+URLEncoder.encode("http://62214a01.ngrok.io/auth-1/index.html", "UTF-8")+"&response_type=code&scope=snsapi_userinfo&state=ToolTes#wechat_redirect");
             buttons.add(button);
 
             button = new Button();
@@ -98,6 +101,8 @@ public class MenuContextTest {
         } catch (WechatException e) {
             e.printStackTrace();
         } catch (HttpException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }

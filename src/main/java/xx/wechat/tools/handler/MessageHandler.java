@@ -4,7 +4,6 @@ import xx.wechat.tools.WechatContext;
 import xx.wechat.tools.annotation.MessageController;
 import xx.wechat.tools.annotation.MessageMapping;
 import xx.wechat.tools.bean.message.TextMessage;
-import xx.wechat.tools.utils.Convert;
 
 /**
  * 处理接收到的消息
