@@ -1,11 +1,14 @@
 package xx.wechat.tools;
 
-import xx.wechat.tools.bean.AccessToken;
-import xx.wechat.tools.bean.WebAccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
+import xx.wechat.tools.bean.token.JsApiTicket;
+import xx.wechat.tools.bean.token.WebAccessToken;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
 import xx.wechat.tools.context.*;
 import xx.wechat.tools.utils.Access;
+
+import java.util.Map;
 
 /**
  * 微信操作集
@@ -15,6 +18,7 @@ public class WechatContext {
     private String secret;
 
     private AccessToken accessToken;
+    private JsApiTicket jsApiTicket;
 
     public WechatContext(String appid, String secret) throws WechatException, HttpException {
         this.appid = appid;
@@ -30,6 +34,26 @@ public class WechatContext {
         if (this.accessToken == null || this.accessToken.isExpired()) refreshToken();
         return this.accessToken;
     }
+
+    protected void refreshJsApiTicket() throws WechatException, HttpException {
+        this.jsApiTicket = Access.getJsApiTicket(this.accessToken.getToken());
+    }
+
+    /**
+     * 获取JS调用临时票据
+     *
+     * @param url 页面地址
+     * @return 临时票据
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public synchronized Map<String, String> getJsApiTicketSignature(String url) throws WechatException, HttpException {
+        if (this.jsApiTicket == null || this.jsApiTicket.isExpired()) refreshJsApiTicket();
+        Map<String, String> signature = Access.getJsApiTicketSignature(this.jsApiTicket.getTicket(), url);
+        signature.put("appId", this.appid);
+        return signature;
+    }
+
 
     /**
      * 菜单操作方法

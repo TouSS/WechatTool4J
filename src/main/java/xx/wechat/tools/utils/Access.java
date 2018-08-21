@@ -2,12 +2,16 @@ package xx.wechat.tools.utils;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
+import xx.wechat.tools.bean.token.JsApiTicket;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 公众号凭证/接入检查等
@@ -27,6 +31,21 @@ public class Access {
         AccessToken token = JSON.parseObject(Https.get(url), AccessToken.class);
         token.setApply(System.currentTimeMillis() / 1000);
         return token;
+    }
+
+    /**
+     * 获取JS调用接口凭证
+     *
+     * @param accessToken ACCESS_TOKEN
+     * @return 临时票据
+     * @throws WechatException
+     * @throws HttpException
+     */
+    public static JsApiTicket getJsApiTicket(String accessToken) throws WechatException, HttpException {
+        String url = "https://" + WechatServer.get() + "/cgi-bin/ticket/getticket?access_token=" + accessToken + "&type=jsapi";
+        JsApiTicket ticket = JSON.parseObject(Https.get(url), JsApiTicket.class);
+        ticket.setApply(System.currentTimeMillis() / 1000);
+        return ticket;
     }
 
     /**
@@ -53,4 +72,40 @@ public class Access {
         }
         return false;
     }
+
+    /**
+     * ticket 签名
+     *
+     * @param ticket 临时票据
+     * @param url    当前网页的URL，不包含#及其后面部分
+     * @return 签名
+     */
+    public static Map<String, String> getJsApiTicketSignature(String ticket, String url) {
+        String[] keys = {"jsapi_ticket", "noncestr", "timestamp", "url"};
+        Arrays.sort(keys);
+        String noncestr = RandomStringUtils.randomAlphanumeric(16);
+        String timestamp = String.valueOf(System.currentTimeMillis());
+        Map<String, String> data = new HashMap<String, String>() {{
+            put("jsapi_ticket", ticket);
+            put("noncestr", noncestr);
+            put("timestamp", timestamp);
+            put("url", url);
+        }};
+        String str = "";
+        String key;
+        for (int i = 0; i < keys.length; i++) {
+            key = keys[i];
+            if (i == 0) {
+                str += key + "=" + data.get(key);
+            } else {
+                str += "&" + key + "=" + data.get(key);
+            }
+        }
+        Map<String, String> signature = new HashMap<>();
+        signature.put("timestamp", timestamp);
+        signature.put("nonceStr", noncestr);
+        signature.put("signature", new String(DigestUtils.sha1Hex(str)));
+        return signature;
+    }
+
 }

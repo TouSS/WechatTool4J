@@ -2,15 +2,14 @@ package xx.wechat.tools.servlet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.dom4j.DocumentException;
-import xx.wechat.tools.handler.ReceiveHandler;
 import xx.wechat.tools.WechatContext;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.MessageControllerNotFoundException;
 import xx.wechat.tools.exception.WechatException;
+import xx.wechat.tools.handler.ReceiveHandler;
 import xx.wechat.tools.utils.Access;
 
 import javax.servlet.ServletConfig;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;

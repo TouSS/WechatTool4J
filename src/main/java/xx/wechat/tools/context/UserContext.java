@@ -2,7 +2,7 @@ package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.user.Tag;
 import xx.wechat.tools.bean.user.User;
 import xx.wechat.tools.bean.user.UserBatchInfo;

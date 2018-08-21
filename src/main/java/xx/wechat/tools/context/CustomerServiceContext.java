@@ -2,7 +2,7 @@ package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.lang3.StringUtils;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.customer.service.Account;
 import xx.wechat.tools.bean.TemplateMessageItem;
 import xx.wechat.tools.bean.customer.service.Records;

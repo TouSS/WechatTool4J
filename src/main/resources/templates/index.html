@@ -7,20 +7,43 @@
     <link rel="stylesheet" href="https://unpkg.com/muse-ui/dist/muse-ui.css">
     <script src="https://unpkg.com/vue/dist/vue.js"></script>
     <script src="https://unpkg.com/muse-ui/dist/muse-ui.js"></script>
+    <script src="https://res.wx.qq.com/open/js/jweixin-1.2.0.js"></script>
     <style>
         .button-wrapper {
             padding-top: 20%;
+        }
+        .container {
+            max-width: 100%;
+        }
+        .mu-card-title {
+            font-size: 50px !important;
         }
     </style>
 </head>
 <body>
 <div id="app">
-    <mu-container class="button-wrapper">
-        <mu-flex justify-content="center" align-items="center">
-            <mu-button fab large color="red">
-                <mu-icon value="thumb_up"></mu-icon>
-            </mu-button>
-        </mu-flex>
+    <mu-container>
+        <mu-card>
+            <mu-card-header title="细川">
+                <mu-avatar slot="avatar">
+                    <img src="/imgs/细川.jpg">
+                </mu-avatar>
+            </mu-card-header>
+            <mu-card-media title="Bloody Butterfly">
+                <img src="/imgs/细川.jpg">
+            </mu-card-media>
+            <mu-card-title title="血涂碟"></mu-card-title>
+            <mu-card-text>
+                散落在指尖的阳光，我试着轻轻抓住光影的踪迹，它却在眉宇间投下一片淡淡的阴影。
+                调皮的阳光掀动了四月的心帘，温暖如约的歌声渐起。
+                似乎在诉说着，我也可以在漆黑的角落里，找到阴影背后的阳光，
+                找到阳光与阴影奏出和谐的旋律。我要用一颗敏感赤诚的心迎接每一缕滑过指尖的阳光！
+            </mu-card-text>
+            <mu-card-actions>
+                <mu-button flat>Bloody</mu-button>
+                <mu-button flat>Butterfly</mu-button>
+            </mu-card-actions>
+        </mu-card>
     </mu-container>
 </div>
 </body>

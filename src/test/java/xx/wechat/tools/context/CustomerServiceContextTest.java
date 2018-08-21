@@ -3,7 +3,7 @@ package xx.wechat.tools.context;
 import org.junit.Before;
 import org.junit.Test;
 import xx.wechat.tools.Token;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
 

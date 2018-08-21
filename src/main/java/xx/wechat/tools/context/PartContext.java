@@ -1,6 +1,6 @@
 package xx.wechat.tools.context;
 
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 
 /**
  * 处理方法基础类

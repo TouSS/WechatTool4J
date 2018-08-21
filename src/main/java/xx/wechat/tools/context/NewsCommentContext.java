@@ -1,7 +1,7 @@
 package xx.wechat.tools.context;
 
 import com.alibaba.fastjson.JSON;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.NewsComment;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;

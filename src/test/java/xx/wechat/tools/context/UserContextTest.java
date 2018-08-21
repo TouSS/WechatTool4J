@@ -4,15 +4,13 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;
 import xx.wechat.tools.Token;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.user.User;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 public class UserContextTest {
     UserContext userContext;

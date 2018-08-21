@@ -3,7 +3,7 @@ package xx.wechat.tools.context;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import okhttp3.Response;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.media.Article;
 import xx.wechat.tools.bean.media.Media;
 import xx.wechat.tools.exception.HttpException;

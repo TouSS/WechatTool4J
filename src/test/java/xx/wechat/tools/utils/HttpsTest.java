@@ -1,5 +1,6 @@
 package xx.wechat.tools.utils;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.Test;
 
 public class HttpsTest {
@@ -10,6 +11,5 @@ public class HttpsTest {
 
     @Test
     public void post() {
-        System.out.println(System.getProperty("java.io.tmpdir"));
     }
 }

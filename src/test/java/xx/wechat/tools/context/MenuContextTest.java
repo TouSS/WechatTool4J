@@ -4,7 +4,7 @@ import com.alibaba.fastjson.JSON;
 import org.junit.Before;
 import org.junit.Test;
 import xx.wechat.tools.Token;
-import xx.wechat.tools.bean.AccessToken;
+import xx.wechat.tools.bean.token.AccessToken;
 import xx.wechat.tools.bean.menu.Button;
 import xx.wechat.tools.bean.menu.ConditionalMenu;
 import xx.wechat.tools.bean.menu.MatchRule;

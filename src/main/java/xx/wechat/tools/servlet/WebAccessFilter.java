@@ -1,7 +1,7 @@
 package xx.wechat.tools.servlet;
 
 import xx.wechat.tools.WechatContext;
-import xx.wechat.tools.bean.WebAccessToken;
+import xx.wechat.tools.bean.token.WebAccessToken;
 import xx.wechat.tools.context.WebAccessContext;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;

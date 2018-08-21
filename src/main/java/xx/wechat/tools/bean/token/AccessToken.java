@@ -1,4 +1,4 @@
-package xx.wechat.tools.bean;
+package xx.wechat.tools.bean.token;
 
 import com.alibaba.fastjson.annotation.JSONField;
 
@@ -19,7 +19,7 @@ public class AccessToken {
     /**
      * 凭证申请时间戳
      */
-    @JSONField(name = "apply_timestamp")
+    @JSONField(name = "apply_unix")
     private Long apply;
 
     public AccessToken() {
