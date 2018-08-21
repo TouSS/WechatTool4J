@@ -100,7 +100,7 @@ public class ReceiveHandler {
         Class<?> messageControllerClass = (Class<?>) handler.get("messageControllerClass");
         Method method = (Method) handler.get("invokeMethod");
         WechatContext wechatContext = (WechatContext) req.getSession().getServletContext().getAttribute("wechatContext");
-        String result = (String) method.invoke(messageControllerClass.newInstance(), wechatContext, Convert.mapToObject(postData, messageClass));
-        resp.getWriter().write(result);
+        Object result = method.invoke(messageControllerClass.newInstance(), wechatContext, Convert.mapToObject(postData, messageClass));
+        resp.getWriter().write(result instanceof String ? String.valueOf(result) : Convert.objectToXml(result));
     }
 }

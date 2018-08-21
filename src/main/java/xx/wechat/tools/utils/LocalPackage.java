@@ -1,5 +1,7 @@
 package xx.wechat.tools.utils;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.io.IOException;
@@ -28,6 +30,7 @@ public class LocalPackage {
     public static List<Class<?>> getClasses(String packageName) throws IOException, ClassNotFoundException {
         // 第一个class类的集合
         List<Class<?>> classes = new ArrayList<Class<?>>();
+        if(StringUtils.isEmpty(packageName)) return classes;
         // 是否循环迭代
         boolean recursive = true;
         // 获取包的名字 并进行替换

@@ -26,9 +26,9 @@ public class WebAccessFilter implements Filter {
         HttpServletRequest req = (HttpServletRequest) servletRequest;
         HttpServletResponse resp = (HttpServletResponse) servletResponse;
         try {
+            WechatContext wechatContext = (WechatContext) req.getServletContext().getAttribute("wechatContext");
             //检查session是否已经验证过
             HttpSession session = req.getSession();
-            WechatContext wechatContext = (WechatContext) session.getAttribute("wechatContext");
             WebAccessToken webAccessToken = (WebAccessToken) session.getAttribute("webAccessToken");
             WebAccessContext webAccessContext = wechatContext.getWebAccessContext();
             String code = req.getParameter("code");
@@ -37,7 +37,7 @@ public class WebAccessFilter implements Filter {
                 webAccessToken = webAccessContext.getWebAccessToken(code);
                 session.setAttribute("webAccessToken", webAccessContext);
                 if ("snsapi_userinfo".equals(webAccessToken.getScope())) {
-                    session.setAttribute("user", webAccessContext.getUserInfo(webAccessToken, "zh_CN"));
+                    session.setAttribute("wx_user", webAccessContext.getUserInfo(webAccessToken, "zh_CN"));
                 }
             } else {
                 //不为空， 是否过期 过期刷新

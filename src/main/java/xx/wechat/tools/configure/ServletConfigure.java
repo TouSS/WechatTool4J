@@ -1,10 +1,12 @@
 package xx.wechat.tools.configure;
 
 
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import xx.wechat.tools.servlet.DispatcherServlet;
+import xx.wechat.tools.servlet.WebAccessFilter;
 
 /**
  * Servlet配置
@@ -13,8 +15,24 @@ import xx.wechat.tools.servlet.DispatcherServlet;
 public class ServletConfigure {
 
     @Bean
-    public ServletRegistrationBean toolDispatcherServlet() {
-        return new ServletRegistrationBean(new DispatcherServlet("wx1f47e3c510d330dc", "13114dfaa18f61d04666b4f19364ce2f", "tool", "xx.wechat.tools"), "/");
+    public ServletRegistrationBean wechatServlet() {
+        ServletRegistrationBean servletRegistrationBean = new ServletRegistrationBean();
+        servletRegistrationBean.setServlet(new DispatcherServlet());
+        servletRegistrationBean.addUrlMappings("/service-1");
+        servletRegistrationBean.addInitParameter("appid", "wx1f47e3c510d330dc");
+        servletRegistrationBean.addInitParameter("secret", "13114dfaa18f61d04666b4f19364ce2f");
+        servletRegistrationBean.addInitParameter("token", "tool");
+        servletRegistrationBean.addInitParameter("messageControllerPackage", "xx.wechat.tools");
+        servletRegistrationBean.setLoadOnStartup(0);
+        return servletRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean wechatWebFilter() {
+        FilterRegistrationBean registration = new FilterRegistrationBean();
+        registration.setFilter(new WebAccessFilter());
+        registration.addUrlPatterns("/auth-1/*");
+        return registration;
     }
 
 }

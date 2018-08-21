@@ -9,6 +9,8 @@ import xx.wechat.tools.exception.MessageControllerNotFoundException;
 import xx.wechat.tools.exception.WechatException;
 import xx.wechat.tools.utils.Access;
 
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -17,22 +19,12 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
 public class DispatcherServlet extends HttpServlet {
+
     /**
-     * 公众号APPID
-     **/
-    private String appid;
-    /**
-     * 公众号密匙
-     **/
-    private String secret;
-    /**
-     * 公众号接入时填写的TOKEN
-     **/
+     * 接入时配置的token
+     */
     private String token;
-    /**
-     * 处理类包
-     **/
-    private String messageControllerPackageName;
+
     /**
      * 处理器
      **/
@@ -41,23 +33,21 @@ public class DispatcherServlet extends HttpServlet {
     public DispatcherServlet() {
     }
 
-    public DispatcherServlet(String appid, String secret, String token, String messageControllerPackageName) {
-        this.appid = appid;
-        this.secret = secret;
-        this.token = token;
-        this.messageControllerPackageName = messageControllerPackageName;
-    }
-
     @Override
     public void init() throws ServletException {
         super.init();
+        ServletConfig servletConfig = this.getServletConfig();
+        String appid = servletConfig.getInitParameter("appid");
+        String secret = servletConfig.getInitParameter("secret");
+        this.token = servletConfig.getInitParameter("token");
+        String messageControllerPackage = servletConfig.getInitParameter("messageControllerPackage");
         if (StringUtils.isEmpty(appid) || StringUtils.isEmpty(secret) || StringUtils.isEmpty(token)) {
             throw new ServletException("Init servlet failed: missing necessary configuration information (appid|secret|token)+");
         }
         //初始化WechatContext
         try {
             this.getServletContext().setAttribute("wechatContext", new WechatContext(appid, secret));
-            this.receiveHandler = new ReceiveHandler(messageControllerPackageName);
+            this.receiveHandler = new ReceiveHandler(messageControllerPackage);
         } catch (HttpException | WechatException | IOException | ClassNotFoundException e) {
             throw new ServletException("Init servlet failed: " + e.getMessage());
         }
@@ -86,22 +76,5 @@ public class DispatcherServlet extends HttpServlet {
         } catch (MessageControllerNotFoundException | IllegalAccessException | DocumentException | InstantiationException | InvocationTargetException e) {
             throw new ServletException("Request handle failed: " + e.getMessage());
         }
-
-    }
-
-    public void setAppid(String appid) {
-        this.appid = appid;
-    }
-
-    public void setSecret(String secret) {
-        this.secret = secret;
-    }
-
-    public void setToken(String token) {
-        this.token = token;
-    }
-
-    public void setMessageControllerPackageName(String messageControllerPackageName) {
-        this.messageControllerPackageName = messageControllerPackageName;
     }
 }
