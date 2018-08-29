@@ -1,7 +1,6 @@
 package xx.wechat.tools.servlet;
 
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.lang3.StringUtils;
 import xx.wechat.tools.WechatContext;
 import xx.wechat.tools.exception.HttpException;
 import xx.wechat.tools.exception.WechatException;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.net.URLDecoder;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

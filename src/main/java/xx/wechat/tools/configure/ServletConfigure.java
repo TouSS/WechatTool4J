@@ -22,8 +22,8 @@ public class ServletConfigure {
         servletRegistrationBean.setName("wechatServlet");
         servletRegistrationBean.setServlet(new DispatcherServlet());
         servletRegistrationBean.addUrlMappings("/service-1");
-        servletRegistrationBean.addInitParameter("appid", "wx1f47e3c510d330dc");
-        servletRegistrationBean.addInitParameter("secret", "13114dfaa18f61d04666b4f19364ce2f");
+        servletRegistrationBean.addInitParameter("appid", "");
+        servletRegistrationBean.addInitParameter("secret", "");
         servletRegistrationBean.addInitParameter("token", "tool");
         servletRegistrationBean.addInitParameter("messageControllerPackage", "xx.wechat.tools");
         servletRegistrationBean.setLoadOnStartup(0);
